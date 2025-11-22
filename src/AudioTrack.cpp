@@ -74,6 +74,7 @@ AudioTrack& AudioTrack::operator=(const AudioTrack& other)
         bpm = other.bpm;
         waveform_size = other.waveform_size;
         delete[] waveform_data;
+        waveform_data = new double[waveform_size];
         for(size_t i =0;i< waveform_size;i++){
             waveform_data[i] = other.waveform_data[i];
         }
@@ -93,12 +94,10 @@ AudioTrack::AudioTrack(AudioTrack&& other) noexcept : title(other.title),
     std::cout << "AudioTrack move constructor called for: " << other.title << std::endl;
     #endif
     // Your code here...
-        waveform_data = new double[other.waveform_size];
-        waveform_size = other.waveform_size;
-        for(size_t i =0;i< waveform_size;i++){
-            waveform_data[i] = other.waveform_data[i];
-        }
          other.waveform_data = nullptr;
+         other.waveform_size = 0;
+         other.bpm = 0;
+         other.duration_seconds = 0;
 }
 
 AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
