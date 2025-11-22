@@ -37,7 +37,9 @@ public:
      * Think about ownership and resource management.
      * Is the default destructor sufficient here?
      */
-    ~PointerWrapper() =default;
+    ~PointerWrapper() {
+        delete ptr;
+    };
 
     // ========== COPY OPERATIONS (DELETED) ==========
 
@@ -60,7 +62,7 @@ public:
      * HINT: How should ownership transfer from one wrapper to another?
      * What should happen to the source wrapper after the move?
      */
-    PointerWrapper(PointerWrapper&& other) noexcept {}
+    PointerWrapper(PointerWrapper&& other) noexcept :ptr(other.ptr)  {other.ptr = nullptr;}
 
     /**
      * TODO: Implement move assignment operator
@@ -68,6 +70,11 @@ public:
      * Don't forget about self-assignment!
      */
     PointerWrapper& operator=(PointerWrapper&& other) noexcept {
+        if(this != &other){
+            delete ptr;
+            other.ptr = nullptr;
+            ptr = other.ptr;
+        }
         return *this;
     }
 
@@ -80,7 +87,11 @@ public:
      */
 
     T& operator*() const {
+        if (!ptr) {
+            throw std::runtime_error("Dereferencing null PointerWrapper");
+        }
         return *ptr;
+
     };
 
     /**
@@ -88,8 +99,11 @@ public:
      * HINT: How do you access members of the wrapped object?
      * What safety checks should you perform?
      */
-    T* operator->() const {
-        return nullptr;
+    T* operator->() const {// this one acts like a pointer and get actually returns a pointer.
+        if (!ptr) {
+            throw std::runtime_error("Dereferencing null PointerWrapper");
+        }
+        return ptr; 
     }
 
     /**
@@ -99,7 +113,11 @@ public:
      * @throws std::runtime_error if ptr is null
      */
     T* get() const {
-        return nullptr; // Placeholder
+        if (!ptr) {
+            throw std::runtime_error("Dereferencing null PointerWrapper");
+        }
+        return ptr;
+
     }
 
     // ========== OWNERSHIP MANAGEMENT ==========
@@ -109,8 +127,14 @@ public:
      * HINT: What does "release" mean in terms of ownership?
      * Should the wrapper still own the pointer after calling release()?
      */
-    T* release() {
-        return nullptr;
+    T* release() { 
+        /** from phase 4 "Release pointer from 
+         PointerWrapper using release() only after track is fully prepared" 
+         so we stop owning it and giving to raw pointer
+         */
+        T* current = ptr;
+        ptr = nullptr;
+        return current;
     }
 
     /**
@@ -119,6 +143,10 @@ public:
      * What should happen to the old pointer?
      */
     void reset(T* new_ptr = nullptr) {
+        if (ptr != new_ptr) {   
+            delete ptr;        
+            ptr = new_ptr;
+        }
     }
 
     // ========== UTILITY FUNCTIONS ==========
