@@ -157,7 +157,7 @@ public:
      * Why might the explicit keyword be important here?
      */
     explicit operator bool() const {
-        return false; //placeholder
+        return ptr != nullptr;
     }
 
     /**
@@ -191,6 +191,7 @@ void swap(PointerWrapper<T>& lhs, PointerWrapper<T>& rhs) noexcept {
     // TODO: Implement global swap function
     // HINT: You can use the member swap function
     //your code here...
+    lhs.swap(rhs.ptr);
 }
 
 #endif // POINTERWRAPPER_H
