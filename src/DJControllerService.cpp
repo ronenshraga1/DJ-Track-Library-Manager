@@ -11,7 +11,26 @@ DJControllerService::DJControllerService(size_t cache_size)
  */
 int DJControllerService::loadTrackToCache(AudioTrack& track) {
     // Your implementation here 
-    return 0; // Placeholder
+    if(cache.contains(track.get_title())){
+        cache.get(track.get_title());
+        return 1;
+    } else{
+      PointerWrapper<AudioTrack> cloned_track =  track.clone();
+      if(!cloned_track){
+        std::cout << " Track: " << track.get_title() 
+        << " failed to clone and returning appropriate failure code without corrupting cache state"; 
+         return 0;
+      }
+      AudioTrack* released_track = cloned_track.release();// here we relesing wrapper from controlling the track.
+      released_track->load();
+      released_track->analyze_beatgrid();
+        PointerWrapper<AudioTrack> new_track(released_track);
+      if(cache.put(std::move(new_track))){
+        return -1;
+      } else{
+        return 0;
+      }
+    }
 }
 
 void DJControllerService::set_cache_size(size_t new_size) {
@@ -29,5 +48,10 @@ void DJControllerService::displayCacheStatus() const {
  */
 AudioTrack* DJControllerService::getTrackFromCache(const std::string& track_title) {
     // Your implementation here
-    return nullptr; // Placeholder
+    AudioTrack* track =cache.get(track_title);
+    if(track){
+        return track;
+    } else{
+        return nullptr;
+    }
 }
