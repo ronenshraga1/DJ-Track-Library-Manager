@@ -27,7 +27,7 @@ class Playlist {
 private:
     PlaylistNode* head;
     std::string playlist_name;
-    int track_count;
+    int track_counter;
 
 public:
     /**
@@ -39,6 +39,9 @@ public:
      * Destructor
      */
     ~Playlist();
+
+    Playlist(const Playlist& other);// copy constructor         
+    Playlist& operator=(const Playlist& other);  // copy assignment
 
     /**
      * Add a track to the playlist
@@ -61,7 +64,7 @@ public:
      * Get playlist statistics
      * @return Number of tracks in the playlist
      */
-    int get_track_count() const { return track_count; }
+    int get_track_count() const { return track_counter; }
     const std::string& get_name() const { return playlist_name; }
 
     /**
