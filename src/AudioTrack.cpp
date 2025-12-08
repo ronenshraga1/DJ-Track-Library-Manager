@@ -45,8 +45,8 @@ AudioTrack::AudioTrack(const AudioTrack& other)
         artists(other.artists),
         duration_seconds(other.duration_seconds),
         bpm(other.bpm),
-        waveform_size(other.waveform_size),
-        waveform_data(nullptr)
+        waveform_data(nullptr),
+        waveform_size(other.waveform_size)
 
 {
     // TODO: Implement the copy constructor
@@ -86,8 +86,8 @@ AudioTrack::AudioTrack(AudioTrack&& other) noexcept : title(other.title),
         artists(other.artists),
         duration_seconds(other.duration_seconds),
         bpm(other.bpm),
-        waveform_size(other.waveform_size),
-        waveform_data(other.waveform_data) // copies pointer value, no need to deep copy.
+        waveform_data(other.waveform_data), 
+        waveform_size(other.waveform_size) 
 {
     // TODO: Implement the move constructor
     #ifdef DEBUG
