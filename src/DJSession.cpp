@@ -180,13 +180,14 @@ void DJSession::simulate_dj_performance() {
                 ++stats.tracks_processed;
                 load_track_to_controller(track_title);
                 bool is_loaded = load_track_to_mixer_deck(track_title);
+                controller_service.displayCacheStatus();
+                mixing_service.displayDeckStatus();
                 if (!is_loaded) {
                     // Error already logged
                     continue;
                 }
             }
             print_session_summary();
-            stats = SessionStats{};
         }
     } else {
         while (true) {
@@ -210,13 +211,14 @@ void DJSession::simulate_dj_performance() {
                 ++stats.tracks_processed;
                 load_track_to_controller(track_title);
                 bool is_loaded = load_track_to_mixer_deck(track_title);
+                controller_service.displayCacheStatus();
+                mixing_service.displayDeckStatus();
                 if (!is_loaded) {
                     // Error already logged
                     continue;
                 }
             }
             print_session_summary();
-            stats = SessionStats{};
         }
     }
     std::cout << "Session cancelled by user or all playlists played." << std::endl;
