@@ -77,7 +77,7 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
         stats.errors += 1;
         return 0;
     } else{
-        std::cout<<"[System] Loading track ’"<<track_name<< "’ to controller..."<< std::endl;
+        std::cout<<"[System] Loading track '"<<track_name<< "' to controller..."<< std::endl;
         int value = controller_service.loadTrackToCache(*track);
         if(value == 1){
             stats.cache_hits += 1;
@@ -174,13 +174,14 @@ void DJSession::simulate_dj_performance() {
                 ++stats.errors;
                 continue;   // continue to next playlist
             }
+            std::reverse(track_titles.begin(),track_titles.end());
             for (size_t j = 0; j < track_titles.size(); ++j) {
                 const std::string &track_title = track_titles[j];
-                std::cout << "\n-- Processing: " << track_title << " --" << std::endl;
+                std::cout << "\n--- Processing: " << track_title << " ---" << std::endl;
                 ++stats.tracks_processed;
                 load_track_to_controller(track_title);
-                bool is_loaded = load_track_to_mixer_deck(track_title);
                 controller_service.displayCacheStatus();
+                bool is_loaded = load_track_to_mixer_deck(track_title);
                 mixing_service.displayDeckStatus();
                 if (!is_loaded) {
                     // Error already logged
@@ -203,7 +204,7 @@ void DJSession::simulate_dj_performance() {
                 ++stats.errors;
                 continue;
             }
-
+            std::reverse(track_titles.begin(),track_titles.end());
             for (size_t j = 0; j < track_titles.size(); ++j) {
                 const std::string &track_title = track_titles[j];
 

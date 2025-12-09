@@ -34,7 +34,6 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
                 track_info.extra_param1,
                 has_tags
             );
-            std::cout << "MP3Track created: " << track_info.extra_param1 << " kbps\n";
         } else if (track_info.type == "WAV") {
             track = new WAVTrack(
                 track_info.title,
@@ -44,7 +43,6 @@ void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>&
                 track_info.extra_param1,   
                 track_info.extra_param2    
             );
-            std::cout << "WAVTrack created: " << track_info.extra_param1 << "Hz/"<< track_info.extra_param2 << "bit\n";
         } else {
             std::cout << "[WARNING] Unknown track type '" << track_info.type << "' (skipping)\n";
         }
@@ -155,7 +153,6 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
                 wrapper->analyze_beatgrid();
                 AudioTrack* track = wrapper.release();
                 playlist.add_track(track);
-                std::cout << "Added '" << track->get_title()<< "' to playlist '" << playlist_name << "'\n";
 
             }else{
                 std::cout<<"Clone failed"<<std::endl;
