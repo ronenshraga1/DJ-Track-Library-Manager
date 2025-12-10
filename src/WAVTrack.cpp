@@ -47,8 +47,12 @@ double WAVTrack::get_quality_score() const {
     if(bit_depth>=24)
         score+=5;
     if(score >100){
+            std::cout << "[WAVTrack::get_quality_score] \"" 
+              << title << "\" score = " << 100 << "/100" << std::endl;
         return 100;
     } else{
+            std::cout << "[WAVTrack::get_quality_score] \"" 
+              << title << "\" score = " << score << "/100" << std::endl;
         return score;
     }
     
