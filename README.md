@@ -183,8 +183,6 @@ make help         # Show available Makefile targets
 make examination  # Runs ./test.sh, if that script exists
 ```
 
-TODO: `make examination` references `test.sh`, but no `test.sh` file was found in this checkout.
-
 
 ## Testing
 
@@ -207,8 +205,6 @@ For memory diagnostics with Valgrind:
 make test-leaks
 ```
 
-TODO: No standalone unit test framework or CI test configuration was found.
-
 ## Deployment
 
 There is no deployment pipeline in this repository. The project is intended to be built and run locally as a command-line program.
@@ -225,8 +221,6 @@ Then run:
 ```bash
 ./bin/dj_manager -I -A
 ```
-
-TODO: Add Docker, CI, packaging, or release artifacts if deployment becomes part of the project requirements.
 
 ## Contributing
 
